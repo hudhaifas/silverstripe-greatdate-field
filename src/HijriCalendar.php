@@ -1,4 +1,5 @@
 <?php
+
 namespace HudhaifaS\Fields;
 
 define('GREGORIAN_EPOCH', 1721425.5);

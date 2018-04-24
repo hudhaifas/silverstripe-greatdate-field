@@ -1,4 +1,5 @@
 <?php
+
 namespace HudhaifaS\Fields;
 
 use SilverStripe\Forms\FormField;

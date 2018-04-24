@@ -1,9 +1,9 @@
 {
     "name": "hudhaifas/silverstripe-greatdate-field",
-    "description": "Great Date Field for B.C. dates.",
+    "description": "Upload Image / File from Silverstripe frontend.",
     "type": "silverstripe-vendormodule",
     "homepage": "https://github.com/hudhaifas/silverstripe-greatdate-field",
-    "keywords": ["silverstripe", "great date", "date", "field", "file"],
+    "keywords": ["silverstripe", "frontend", "field", "image", "file", "upload"],
     "license": "MIT",
     "authors": [
         {
@@ -16,14 +16,14 @@
     },
     "require": {
         "silverstripe/framework": "^4",
+        "silverstripe/cms": "^4",
         "silverstripe/vendor-plugin": "^1.0"
     },
     "extra": {
         "installer-name": "greatdate-field",
         "expose": [
             "res/css",
-            "res/images",
-            "res/js"
+            "res/images"
         ]
     }
 }

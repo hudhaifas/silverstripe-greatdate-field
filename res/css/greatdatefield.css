@@ -1,0 +1,56 @@
+/* 
+    Created on : Sep 23, 2017, 5:16:18 PM
+    Author     : Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
+*/
+.greatdate .controls {
+  height: 34px;
+  padding: 2px 3px;
+  border: 1px solid #bababa;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+.greatdate .controls .form-control {
+  display: inline;
+  width: auto;
+  height: 28px;
+  padding: 0 1px;
+  font-size: 0.85em;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  /* For legacy WebKit based browsers */
+  -moz-box-sizing: border-box;
+  /* For legacy (Firefox <29) Gecko based browsers */
+  box-sizing: border-box;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid transparent;
+}
+.greatdate .controls .form-control:focus {
+  border-bottom: 1px solid rgba(102, 175, 233, 0.6);
+  -webkit-box-shadow: 0 6px 6px -6px rgba(102, 175, 233, 0.6);
+  -moz-box-shadow: 0 6px 6px -6px rgba(102, 175, 233, 0.6);
+  box-shadow: 0 6px 6px -6px rgba(102, 175, 233, 0.6);
+}
+.greatdate .middleColumn select {
+  width: 44px;
+  background: #fff;
+  border: 1px solid #b3b3b3;
+  padding: 7px 7px;
+  line-height: 16px;
+  margin: 0;
+  outline: none;
+  -moz-transition: 0.2s box-shadow ease-in;
+  -webkit-transition: 0.2s box-shadow ease-in;
+  -o-transition: 0.2s box-shadow ease-in;
+  transition: 0.2s box-shadow ease-in;
+  -moz-transition: 0.2s border ease-in;
+  -webkit-transition: 0.2s border ease-in;
+  -o-transition: 0.2s border ease-in;
+  transition: 0.2s border ease-in;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+/*# sourceMappingURL=greatdatefield.css.map */

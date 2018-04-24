@@ -1,4 +1,5 @@
 <?php
+
 namespace HudhaifaS\Fields;
 
 use SilverStripe\Forms\DropdownField;
@@ -73,7 +74,7 @@ class GreatDateField
      * @return HTMLText
      */
     public function Field($properties = []) {
-        Requirements::css("amheritance/amgenealogy: res/css/fields/greatdatefield.css");
+        Requirements::css("hudhaifas/silverstripe-greatdate-field: res/css/greatdatefield.css");
 
         $format = 'd/m/y';
         $fields = [];
