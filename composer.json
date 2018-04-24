@@ -1,0 +1,30 @@
+{
+    "name": "hudhaifas/silverstripe-greatdate-field",
+    "description": "Upload Image / File from Silverstripe frontend.",
+    "type": "silverstripe-vendormodule",
+    "homepage": "https://github.com/hudhaifas/silverstripe-greatdate-field",
+    "keywords": ["silverstripe", "frontend", "field", "image", "file", "upload"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hudhaifa Shatnawi",
+            "email": "me@hudhaifa.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/hudhaifas/silverstripe-greatdate-field/issues"
+    },
+    "require": {
+        "silverstripe/framework": "^4",
+        "silverstripe/cms": "^4",
+        "silverstripe/vendor-plugin": "^1.0"
+    },
+    "extra": {
+        "installer-name": "greatdate-field",
+        "expose": [
+            "res/css",
+            "res/images",
+            "res/js"
+        ]
+    }
+}
