@@ -1,7 +1,9 @@
 <?php
 
-namespace HudhaifaS\Fields;
+namespace HudhaifaS\FieldType;
 
+use HudhaifaS\Forms\GreatDateField;
+use HudhaifaS\Util\HijriCalendar;
 use SilverStripe\Forms\FormField;
 use SilverStripe\ORM\FieldType\DBComposite;
 use SilverStripe\ORM\FieldType\DBDatetime;
@@ -10,7 +12,7 @@ define('NULL_MONTH', 13);
 define('NULL_DAY', 32);
 
 /**
- * 
+ *
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Sep 21, 2017 - 8:08:43 PM
  */
@@ -173,8 +175,8 @@ class DBGreatDate
 
     public function Hijri() {
         $hijri = HijriCalendar::gregorianToHijri(
-                        $this->isEstimatedMonth() ? 1 : $this->getMonth(), // 
-                        $this->isEstimatedDay() ? 1 : $this->getDay(), // 
+                        $this->isEstimatedMonth() ? 1 : $this->getMonth(), //
+                        $this->isEstimatedDay() ? 1 : $this->getDay(), //
                         $this->getYear()
         );
         $bh = $hijri['Year'] >= 0 ? _t('Date.AH_DATE', ' A.H.') : _t('Date.BH_DATE', ' B.H.');
@@ -303,8 +305,8 @@ class DBGreatDate
     public function DaysAgo($another = null) {
         if ($another) {
             $anotherJd = GregorianToJD(
-                    $another->isEstimatedMonth() ? 1 : $another->getMonth(), // 
-                    $another->isEstimatedDay() ? 1 : $another->getDay(), // 
+                    $another->isEstimatedMonth() ? 1 : $another->getMonth(), //
+                    $another->isEstimatedDay() ? 1 : $another->getDay(), //
                     $another->getYear()
             );
         } else {
@@ -313,8 +315,8 @@ class DBGreatDate
         }
 
         return $anotherJd - GregorianToJD(
-                        $this->isEstimatedMonth() ? 1 : $this->getMonth(), // 
-                        $this->isEstimatedDay() ? 1 : $this->getDay(), // 
+                        $this->isEstimatedMonth() ? 1 : $this->getMonth(), //
+                        $this->isEstimatedDay() ? 1 : $this->getDay(), //
                         $this->getYear()
         );
     }

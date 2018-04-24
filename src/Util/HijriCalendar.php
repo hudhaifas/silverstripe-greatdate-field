@@ -1,6 +1,6 @@
 <?php
 
-namespace HudhaifaS\Fields;
+namespace HudhaifaS\Util;
 
 define('GREGORIAN_EPOCH', 1721425.5);
 define('HIJRI_EPOCH', 1948439.5);

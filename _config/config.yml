@@ -1,3 +1,10 @@
 ---
 Name: greatdate-field
 ---
+
+mappings:
+  DBGreatDate: HudhaifaS\FieldType\DBGreatDate
+
+SilverStripe\Core\Injector\Injector:
+  GreatDate:
+    class: HudhaifaS\FieldType\DBGreatDate

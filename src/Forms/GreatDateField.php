@@ -1,7 +1,9 @@
 <?php
 
-namespace HudhaifaS\Fields;
+namespace HudhaifaS\Forms;
 
+use HudhaifaS\Fields\HijriCalendar;
+use HudhaifaS\FieldType\DBGreatDate;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\NumericField;
