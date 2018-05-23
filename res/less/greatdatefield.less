@@ -3,9 +3,18 @@
     Author     : Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
 */
 
+@holder-height: 34px;
+@field-height: 28px;
+
+@sm-holder-height: 30px;
+@sm-field-height: 24px;
+
+@xs-holder-height: 28px;
+@xs-field-height: 22px;
+
 .greatdate {
     > .controls {
-        height: 34px;
+        height: @holder-height;
         padding: 2px 3px;
 
         border: 1px solid #bababa;
@@ -16,7 +25,7 @@
         .form-control {
             display: inline;
             width: auto;
-            height: 28px !important;
+            height: @field-height !important;
             padding: 0 1px;
 
             font-size: 0.85em;
@@ -60,6 +69,48 @@
             -moz-border-radius: 4px;
             -webkit-border-radius: 4px;
             border-radius: 4px;
+        }
+    }
+}
+
+.field-sm {
+    .greatdate {
+        > .controls {
+            height: @sm-holder-height;
+            padding: 2px 3px;
+
+            .form-control {
+                height: @sm-field-height !important;
+                font-size: 0.85em;
+            }
+        }
+
+        .middleColumn {
+            select {
+                width: 44px;
+                padding: 7px 7px;
+            }
+        }
+    }
+}
+
+.field-xs {
+    .greatdate {
+        > .controls {
+            height: @xs-holder-height;
+            padding: 2px 3px;
+
+            .form-control {
+                height: @xs-field-height !important;
+                font-size: 0.85em;
+            }
+        }
+
+        .middleColumn {
+            select {
+                width: 44px;
+                padding: 7px 7px;
+            }
         }
     }
 }
