@@ -311,7 +311,7 @@ class DBGreatDate
             );
         } else {
             $time = DBDatetime::now();
-            $anotherJd = GregorianToJD($time->Format('m'), $time->Format('d'), $time->Format('Y'));
+            $anotherJd = GregorianToJD($time->Format('M'), $time->Format('d'), $time->Format('Y'));
         }
 
         return $anotherJd - GregorianToJD(
