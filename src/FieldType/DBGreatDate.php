@@ -6,6 +6,7 @@ use HudhaifaS\Forms\GreatDateField;
 use HudhaifaS\Util\HijriCalendar;
 use SilverStripe\Forms\FormField;
 use SilverStripe\ORM\FieldType\DBComposite;
+use SilverStripe\ORM\FieldType\DBDate;
 use SilverStripe\ORM\FieldType\DBDatetime;
 
 define('NULL_MONTH', 13);
@@ -310,8 +311,8 @@ class DBGreatDate
                     $another->getYear()
             );
         } else {
-            $time = DBDatetime::now();
-            $anotherJd = GregorianToJD($time->Format('M'), $time->Format('d'), $time->Format('Y'));
+            $today = DBGreatDate::today();
+            $anotherJd = GregorianToJD($today->getMonth(), $today->getDay(), $today->getYear());
         }
 
         return $anotherJd - GregorianToJD(
@@ -323,6 +324,28 @@ class DBGreatDate
 
     public function isBC() {
         return $this->getYear() < 0;
+    }
+
+    /**
+     *
+     */
+    protected static $mock_today = null;
+
+    public static function today() {
+        /** @var DBDatetime $today */
+        $today = null;
+        if (self::$mock_today) {
+            $now = self::$mock_today;
+        } else {
+            $now = DBDatetime::now();
+            $today = new DBGreatDate();
+            $today->setValue([
+                'Day' => $now->Format('d', DBDate::ISO_LOCALE),
+                'Month' => $now->Format('M', DBDate::ISO_LOCALE),
+                'Year' => $now->Format('Y', DBDate::ISO_LOCALE)
+            ]);
+        }
+        return $today;
     }
 
     public static function create_great_date($year, $month = NULL_MONTH, $day = NULL_DAY) {
