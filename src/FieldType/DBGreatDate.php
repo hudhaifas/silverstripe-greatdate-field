@@ -136,6 +136,10 @@ class DBGreatDate
     }
 
     public function Nice() {
+        if (!$this->exists()) {
+            return $this->emptyDate();
+        }
+
         $formattedYear = $this->getYear() > 0 ? sprintf('%04d', $this->getYear()) : sprintf('%05d', $this->getYear());
 
         if ($this->isEstimatedMonth()) {
@@ -151,6 +155,10 @@ class DBGreatDate
      * Returns the date in the format 24 December 2006
      */
     public function Long() {
+        if (!$this->exists()) {
+            return $this->emptyDate();
+        }
+
         $bc = $this->getYear() >= 0 ? _t('Date.AD_DATE', ' A.D.') : _t('Date.BC_DATE', ' B.C.');
 
         if ($this->isEstimatedMonth()) {
@@ -175,6 +183,10 @@ class DBGreatDate
     }
 
     public function Hijri() {
+        if (!$this->exists()) {
+            return $this->emptyDate();
+        }
+
         $hijri = HijriCalendar::gregorianToHijri(
                         $this->isEstimatedMonth() ? 1 : $this->getMonth(), //
                         $this->isEstimatedDay() ? 1 : $this->getDay(), //
@@ -204,6 +216,10 @@ class DBGreatDate
     }
 
     public function Both() {
+        if (!$this->exists()) {
+            return $this->emptyDate();
+        }
+
         return $this->Hijri() . _t('Date.ALMOWAFEQ', ', ') . $this->Long();
     }
 
@@ -234,6 +250,10 @@ class DBGreatDate
         $key = $months[$this->getMonth() - 1];
 
         return $short ? _t("Date.SHORT_{$key}", $key) : _t("Date.{$key}", $key);
+    }
+
+    function emptyDate() {
+        return '';
     }
 
     /**
@@ -350,6 +370,10 @@ class DBGreatDate
 
     public static function create_great_date($year, $month = NULL_MONTH, $day = NULL_DAY) {
         $date = new DBGreatDate();
+
+        if (is_string($year)) {
+            list($year, $month, $day) = array_pad(explode('/', $year, 3), 3, null);
+        }
 
         $date->setYear($year);
         $date->setMonth($month);
