@@ -46,23 +46,23 @@ class GreatDateField
         // naming with underscores to prevent values from actually being saved somewhere
         $this->fieldDay = TextField::create("{$name}[Day]", false)
                 ->addExtraClass('day fieldgroup-field')
-                ->setAttribute('placeholder', _t('Date.FIELDLABELA_DAY', 'Day'))
+                ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_DAY', 'Day'))
                 ->setMaxLength(2);
 
         $this->fieldMonth = TextField::create("{$name}[Month]", false)
                 ->addExtraClass('month fieldgroup-field')
-                ->setAttribute('placeholder', _t('Date.FIELDLABELA_MONTH', 'Month'))
+                ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_MONTH', 'Month'))
                 ->setMaxLength(2);
         $this->fieldYear = TextField::create("{$name}[Year]", false)
                 ->addExtraClass('year fieldgroup-field')
-                ->setAttribute('placeholder', _t('Date.FIELDLABELA_YEAR', 'Year'))
+                ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_YEAR', 'Year'))
                 ->setMaxLength(5);
         $this->fieldCalendar = DropdownField::create(
                         "{$name}[Calendar]", // 
-                        _t('Date.FIELDLABELA_CALENDAR', 'Calendar'), // 
+                        _t('GreatDate.FIELDLABELA_CALENDAR', 'Calendar'), // 
                         [
-                    'Gregorian' => _t('Date.CALENDAR_GREGORIAN', 'G'),
-                    'Hijri' => _t('Date.CALENDAR_HIJRI', 'H')
+                    'Gregorian' => _t('GreatDate.CALENDAR_GREGORIAN', 'G'),
+                    'Hijri' => _t('GreatDate.CALENDAR_HIJRI', 'H')
                         ], //
                         $calendar
                 )

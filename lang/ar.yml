@@ -1,5 +1,5 @@
 ar:
-  Date:
+  GreatDate:
     Formal: '{day} {month} {year}{bc}'
     Formal_YEAR: '{year}{bc}'
     Formal_MONTH: '{month} {year}{bc}'
