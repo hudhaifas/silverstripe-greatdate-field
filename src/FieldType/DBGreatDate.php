@@ -159,7 +159,7 @@ class DBGreatDate
             return $this->emptyDate();
         }
 
-        $bc = $this->getYear() >= 0 ? _t('GreatDate.AD_DATE', ' A.D.') : _t('GreatDate.BC_DATE', ' B.C.');
+        $bc = $this->getYear() >= 0 ? _t('GreatDate.AD_DATE', ' ') : _t('GreatDate.BC_DATE', ' B.C.');
 
         if ($this->isEstimatedMonth()) {
             return _t('GreatDate.Formal_YEAR', '{year}{bc}', [
