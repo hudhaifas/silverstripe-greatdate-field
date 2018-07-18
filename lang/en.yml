@@ -1,5 +1,12 @@
 en:
   GreatDate:
+    YEAR: 'year'
+    YEARS: 'years'
+    MONTH: 'month'
+    MONTHS: 'months'
+    DAY: 'day'
+    DAYS: 'days'
+
     Formal: '{month} {day}, {year}{bc}'
     Formal_YEAR: '{year}{bc}'
     Formal_MONTH: '{month} {year}{bc}'

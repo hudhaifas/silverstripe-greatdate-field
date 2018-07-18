@@ -1,5 +1,12 @@
 ar:
   GreatDate:
+    YEAR: 'سنة'
+    YEARS: 'سنوات'
+    MONTH: 'شهر'
+    MONTHS: 'شهور'
+    DAY: 'يوم'
+    DAYS: 'أيام'
+
     Formal: '{day} {month} {year}{bc}'
     Formal_YEAR: '{year}{bc}'
     Formal_MONTH: '{month} {year}{bc}'
