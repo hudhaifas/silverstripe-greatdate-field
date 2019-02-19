@@ -2,8 +2,8 @@
 
 namespace HudhaifaS\Forms;
 
-use HudhaifaS\Fields\HijriCalendar;
 use HudhaifaS\FieldType\DBGreatDate;
+use HudhaifaS\Util\HijriCalendar;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\NumericField;
@@ -18,8 +18,7 @@ use Symfony\Component\Config\Tests\Util\Validator;
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Sep 21, 2017 - 9:10:33 PM
  */
-class GreatDateField
-        extends FormField {
+class GreatDateField extends FormField {
 
     /**
      * @var FormField
@@ -95,18 +94,22 @@ class GreatDateField
         $this->value = $value;
 
         if (is_array($value)) {
-//            $this->fieldYear->setValue(DBGreatDate::is_valid_year($val['Year']) ? $val['Year'] : null);
             $this->fieldYear->setValue($value['Year']);
             $this->fieldMonth->setValue(DBGreatDate::is_valid_month($value['Month']) ? $value['Month'] : null);
             $this->fieldDay->setValue(DBGreatDate::is_valid_day($value['Day']) ? $value['Day'] : null);
+            $this->fieldCalendar->setValue($value['Calendar']);
         } elseif ($value instanceof DBGreatDate) {
             $this->fieldYear->setValue(DBGreatDate::is_valid_year($value->getYear()) ? $value->getYear() : null);
             $this->fieldMonth->setValue(DBGreatDate::is_valid_month($value->getMonth()) ? $value->getMonth() : null);
             $this->fieldDay->setValue(DBGreatDate::is_valid_day($value->getDay()) ? $value->getDay() : null);
+            $this->fieldCalendar->setValue('Gregorian');
         }
 
-//        $this->fieldCalendar->setValue('Gregorian');
         return $this;
+    }
+
+    public function setSubmittedValue($value, $data = null) {
+        $this->setValue($value, $data);
     }
 
     public function saveInto(DataObjectInterface $dataObject) {
@@ -121,9 +124,6 @@ class GreatDateField
             $gregorian = HijriCalendar::hijriToGregorian($monthValue, $dayValue, $yearValue);
 
             list($monthValue, $dayValue, $yearValue) = $gregorian;
-//            $monthValue = $gregorian[0];
-//            $dayValue = $gregorian[1];
-//            $yearValue = $gregorian[2];
         }
 
         if ($dataObject->hasMethod("set$fieldName")) {
