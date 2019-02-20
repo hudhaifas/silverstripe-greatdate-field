@@ -188,8 +188,8 @@ class DBGreatDate
         }
 
         $hijri = HijriCalendar::gregorianToHijri(
-                        $this->isEstimatedMonth() ? 1 : $this->getMonth(), //
-                        $this->isEstimatedDay() ? 1 : $this->getDay(), //
+                        $this->isEstimatedMonth() ? 6 : $this->getMonth(), // if no month use the 6th month (mid of the year)
+                        $this->isEstimatedDay() ? 15 : $this->getDay(), // if no day use the 15th day (mid of the month)
                         $this->getYear()
         );
         $bh = $hijri['Year'] >= 0 ? _t('GreatDate.AH_DATE', ' A.H.') : _t('GreatDate.BH_DATE', ' B.H.');
