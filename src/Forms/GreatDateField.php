@@ -121,9 +121,16 @@ class GreatDateField extends FormField {
 
         $calendarValue = $this->fieldCalendar->dataValue();
         if ($calendarValue == 'Hijri') {
-            $gregorian = HijriCalendar::hijriToGregorian($monthValue, $dayValue, $yearValue);
+            $hasMonth = DBGreatDate::is_valid_month($monthValue);
+            $hasDay = DBGreatDate::is_valid_day($dayValue);
 
-            list($monthValue, $dayValue, $yearValue) = $gregorian;
+            list($monthValue, $dayValue, $yearValue) = HijriCalendar::hijriToGregorian(
+                            $hasMonth ? $monthValue : 6, // if no month use the 6th month (mid of the year)
+                            $hasDay ? $dayValue : 15, // if no day use the 15th day (mid of the month)
+                            $yearValue
+            );
+            $monthValue = $hasMonth ? $monthValue : null;
+            $dayValue = $hasDay ? $dayValue : null;
         }
 
         if ($dataObject->hasMethod("set$fieldName")) {
