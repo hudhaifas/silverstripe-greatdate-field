@@ -136,6 +136,10 @@ class DBGreatDate
     }
 
     public function Nice() {
+        if (!$this->exists()) {
+            return $this->emptyDate();
+        }
+
         $formattedYear = $this->getYear() > 0 ? sprintf('%04d', $this->getYear()) : sprintf('%05d', $this->getYear());
 
         if ($this->isEstimatedMonth()) {
@@ -151,21 +155,25 @@ class DBGreatDate
      * Returns the date in the format 24 December 2006
      */
     public function Long() {
-        $bc = $this->getYear() >= 0 ? _t('Date.AD_DATE', ' A.D.') : _t('Date.BC_DATE', ' B.C.');
+        if (!$this->exists()) {
+            return $this->emptyDate();
+        }
+
+        $bc = $this->getYear() >= 0 ? _t('GreatDate.AD_DATE', ' ') : _t('GreatDate.BC_DATE', ' B.C.');
 
         if ($this->isEstimatedMonth()) {
-            return _t('Date.Formal_YEAR', '{year}{bc}', [
+            return _t('GreatDate.Formal_YEAR', '{year}{bc}', [
                 'year' => abs($this->getYear()),
                 'bc' => $bc
             ]);
         } else if ($this->isEstimatedDay()) {
-            return _t('Date.Formal_MONTH', '{month} {year}{bc}', [
+            return _t('GreatDate.Formal_MONTH', '{month} {year}{bc}', [
                 'year' => abs($this->getYear()),
                 'month' => $this->monthName(),
                 'bc' => $bc
             ]);
         } else {
-            return _t('Date.Formal', '{month} {day}, {year}{bc}', [
+            return _t('GreatDate.Formal', '{month} {day}, {year}{bc}', [
                 'year' => abs($this->getYear()),
                 'month' => $this->monthName(),
                 'day' => $this->getDay(),
@@ -175,26 +183,30 @@ class DBGreatDate
     }
 
     public function Hijri() {
+        if (!$this->exists()) {
+            return $this->emptyDate();
+        }
+
         $hijri = HijriCalendar::gregorianToHijri(
-                        $this->isEstimatedMonth() ? 1 : $this->getMonth(), //
-                        $this->isEstimatedDay() ? 1 : $this->getDay(), //
+                        $this->isEstimatedMonth() ? 6 : $this->getMonth(), // if no month use the 6th month (mid of the year)
+                        $this->isEstimatedDay() ? 15 : $this->getDay(), // if no day use the 15th day (mid of the month)
                         $this->getYear()
         );
-        $bh = $hijri['Year'] >= 0 ? _t('Date.AH_DATE', ' A.H.') : _t('Date.BH_DATE', ' B.H.');
+        $bh = $hijri['Year'] >= 0 ? _t('GreatDate.AH_DATE', ' A.H.') : _t('GreatDate.BH_DATE', ' B.H.');
 
         if ($this->isEstimatedMonth()) {
-            return _t('Date.Formal_YEAR', '{year}{bc}', [
+            return _t('GreatDate.Formal_YEAR', '{year}{bc}', [
                 'year' => abs($hijri['Year']),
                 'bc' => $bh
             ]);
         } else if ($this->isEstimatedDay()) {
-            return _t('Date.Formal_MONTH', '{month} {year}{bc}', [
+            return _t('GreatDate.Formal_MONTH', '{month} {year}{bc}', [
                 'year' => abs($hijri['Year']),
                 'month' => HijriCalendar::monthName($hijri['Month']),
                 'bc' => $bh
             ]);
         } else {
-            return _t('Date.Formal', '{month} {day}, {year}{bc}', [
+            return _t('GreatDate.Formal', '{month} {day}, {year}{bc}', [
                 'year' => abs($hijri['Year']),
                 'month' => HijriCalendar::monthName($hijri['Month']),
                 'day' => $hijri['Day'],
@@ -204,7 +216,11 @@ class DBGreatDate
     }
 
     public function Both() {
-        return $this->Hijri() . _t('Date.ALMOWAFEQ', ', ') . $this->Long();
+        if (!$this->exists()) {
+            return $this->emptyDate();
+        }
+
+        return $this->Hijri() . _t('GreatDate.ALMOWAFEQ', ', ') . $this->Long();
     }
 
     public function MonthDay($short = false) {
@@ -213,7 +229,7 @@ class DBGreatDate
         } else if ($this->isEstimatedDay()) {
             return $this->monthName($short);
         } else {
-            return _t('Date.Formal_MONTH_DAY', '{month} {day}', [
+            return _t('GreatDate.Formal_MONTH_DAY', '{month} {day}', [
                 'month' => $this->monthName($short),
                 'day' => $this->getDay(),
             ]);
@@ -233,7 +249,11 @@ class DBGreatDate
         ];
         $key = $months[$this->getMonth() - 1];
 
-        return $short ? _t("Date.SHORT_{$key}", $key) : _t("Date.{$key}", $key);
+        return $short ? _t("GreatDate.SHORT_{$key}", $key) : _t("GreatDate.{$key}", $key);
+    }
+
+    function emptyDate() {
+        return '';
     }
 
     /**
@@ -248,11 +268,11 @@ class DBGreatDate
 
         if ($ago >= 0) {
             return _t(
-                    'Date.TIMEDIFFAGO', "{difference} ago", 'Natural language time difference, e.g. 2 hours ago', ['difference' => $this->TimeDiff($significance)]
+                    'GreatDate.TIMEDIFFAGO', "{difference} ago", 'Natural language time difference, e.g. 2 hours ago', ['difference' => $this->TimeDiff($significance)]
             );
         } else {
             return _t(
-                    'Date.TIMEDIFFIN', "in {difference}", 'Natural language time difference, e.g. in 2 hours', ['difference' => $this->TimeDiff($significance)]
+                    'GreatDate.TIMEDIFFIN', "in {difference}", 'Natural language time difference, e.g. in 2 hours', ['difference' => $this->TimeDiff($significance)]
             );
         }
     }
@@ -291,15 +311,15 @@ class DBGreatDate
         switch ($format) {
             case "days":
                 $span = round($ago);
-                return ($span != 1) ? "{$span} " . _t("Date.DAYS", "days") : "{$span} " . _t("Date.DAY", "day");
+                return ($span != 1) ? "{$span} " . _t("GreatDate.DAYS", "days") : "{$span} " . _t("GreatDate.DAY", "day");
 
             case "months":
                 $span = round($ago / 30);
-                return ($span != 1) ? "{$span} " . _t("Date.MONTHS", "months") : "{$span} " . _t("Date.MONTH", "month");
+                return ($span != 1) ? "{$span} " . _t("GreatDate.MONTHS", "months") : "{$span} " . _t("GreatDate.MONTH", "month");
 
             case "years":
                 $span = round($ago / 365);
-                return ($span != 1) ? "{$span} " . _t("Date.YEARS", "years") : "{$span} " . _t("Date.YEAR", "year");
+                return ($span != 1) ? "{$span} " . _t("GreatDate.YEARS", "years") : "{$span} " . _t("GreatDate.YEAR", "year");
         }
     }
 
@@ -329,27 +349,26 @@ class DBGreatDate
     /**
      *
      */
-    protected static $mock_today = null;
+    protected static $cached_today = null;
 
     public static function today() {
         /** @var DBDatetime $today */
         $today = null;
-        if (self::$mock_today) {
-            $now = self::$mock_today;
+        if (self::$cached_today) {
+            return self::$cached_today;
         } else {
-            $now = DBDatetime::now();
-            $today = new DBGreatDate();
-            $today->setValue([
-                'Day' => $now->Format('d', DBDate::ISO_LOCALE),
-                'Month' => $now->Format('M', DBDate::ISO_LOCALE),
-                'Year' => $now->Format('Y', DBDate::ISO_LOCALE)
-            ]);
+            $today = self::create_great_date(date("Y/m/d"));
+            self::$cached_today = $today;
         }
         return $today;
     }
 
     public static function create_great_date($year, $month = NULL_MONTH, $day = NULL_DAY) {
         $date = new DBGreatDate();
+
+        if (is_string($year)) {
+            list($year, $month, $day) = array_pad(explode('/', $year, 3), 3, null);
+        }
 
         $date->setYear($year);
         $date->setMonth($month);
