@@ -2,8 +2,8 @@
 
 namespace HudhaifaS\Forms;
 
-use HudhaifaS\Fields\HijriCalendar;
 use HudhaifaS\FieldType\DBGreatDate;
+use HudhaifaS\Util\HijriCalendar;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\NumericField;
@@ -18,8 +18,7 @@ use Symfony\Component\Config\Tests\Util\Validator;
  * @author Hudhaifa Shatnawi <hudhaifa.shatnawi@gmail.com>
  * @version 1.0, Sep 21, 2017 - 9:10:33 PM
  */
-class GreatDateField
-        extends FormField {
+class GreatDateField extends FormField {
 
     /**
      * @var FormField
@@ -46,23 +45,29 @@ class GreatDateField
         // naming with underscores to prevent values from actually being saved somewhere
         $this->fieldDay = TextField::create("{$name}[Day]", false)
                 ->addExtraClass('day fieldgroup-field')
-                ->setAttribute('placeholder', _t('Date.FIELDLABELA_DAY', 'Day'))
+                ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_DAY', 'Day'))
+                ->setAttribute('pattern', '[0-9]*')
+                ->setAttribute('inputmode', 'numeric')
                 ->setMaxLength(2);
 
         $this->fieldMonth = TextField::create("{$name}[Month]", false)
                 ->addExtraClass('month fieldgroup-field')
-                ->setAttribute('placeholder', _t('Date.FIELDLABELA_MONTH', 'Month'))
+                ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_MONTH', 'Month'))
+                ->setAttribute('pattern', '[0-9]*')
+                ->setAttribute('inputmode', 'numeric')
                 ->setMaxLength(2);
         $this->fieldYear = TextField::create("{$name}[Year]", false)
                 ->addExtraClass('year fieldgroup-field')
-                ->setAttribute('placeholder', _t('Date.FIELDLABELA_YEAR', 'Year'))
+                ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_YEAR', 'Year'))
+                ->setAttribute('pattern', '[0-9]*')
+                ->setAttribute('inputmode', 'numeric')
                 ->setMaxLength(5);
         $this->fieldCalendar = DropdownField::create(
                         "{$name}[Calendar]", // 
-                        _t('Date.FIELDLABELA_CALENDAR', 'Calendar'), // 
+                        _t('GreatDate.FIELDLABELA_CALENDAR', 'Calendar'), // 
                         [
-                    'Gregorian' => _t('Date.CALENDAR_GREGORIAN', 'G'),
-                    'Hijri' => _t('Date.CALENDAR_HIJRI', 'H')
+                    'Gregorian' => _t('GreatDate.CALENDAR_GREGORIAN', 'G'),
+                    'Hijri' => _t('GreatDate.CALENDAR_HIJRI', 'H')
                         ], //
                         $calendar
                 )
@@ -95,18 +100,22 @@ class GreatDateField
         $this->value = $value;
 
         if (is_array($value)) {
-//            $this->fieldYear->setValue(DBGreatDate::is_valid_year($val['Year']) ? $val['Year'] : null);
             $this->fieldYear->setValue($value['Year']);
             $this->fieldMonth->setValue(DBGreatDate::is_valid_month($value['Month']) ? $value['Month'] : null);
             $this->fieldDay->setValue(DBGreatDate::is_valid_day($value['Day']) ? $value['Day'] : null);
+            $this->fieldCalendar->setValue($value['Calendar']);
         } elseif ($value instanceof DBGreatDate) {
             $this->fieldYear->setValue(DBGreatDate::is_valid_year($value->getYear()) ? $value->getYear() : null);
             $this->fieldMonth->setValue(DBGreatDate::is_valid_month($value->getMonth()) ? $value->getMonth() : null);
             $this->fieldDay->setValue(DBGreatDate::is_valid_day($value->getDay()) ? $value->getDay() : null);
+            $this->fieldCalendar->setValue('Gregorian');
         }
 
-//        $this->fieldCalendar->setValue('Gregorian');
         return $this;
+    }
+
+    public function setSubmittedValue($value, $data = null) {
+        $this->setValue($value, $data);
     }
 
     public function saveInto(DataObjectInterface $dataObject) {
@@ -118,12 +127,16 @@ class GreatDateField
 
         $calendarValue = $this->fieldCalendar->dataValue();
         if ($calendarValue == 'Hijri') {
-            $gregorian = HijriCalendar::hijriToGregorian($monthValue, $dayValue, $yearValue);
+            $hasMonth = DBGreatDate::is_valid_month($monthValue);
+            $hasDay = DBGreatDate::is_valid_day($dayValue);
 
-            list($monthValue, $dayValue, $yearValue) = $gregorian;
-//            $monthValue = $gregorian[0];
-//            $dayValue = $gregorian[1];
-//            $yearValue = $gregorian[2];
+            list($monthValue, $dayValue, $yearValue) = HijriCalendar::hijriToGregorian(
+                            $hasMonth ? $monthValue : 6, // if no month use the 6th month (mid of the year)
+                            $hasDay ? $dayValue : 15, // if no day use the 15th day (mid of the month)
+                            $yearValue
+            );
+            $monthValue = $hasMonth ? $monthValue : null;
+            $dayValue = $hasDay ? $dayValue : null;
         }
 
         if ($dataObject->hasMethod("set$fieldName")) {
