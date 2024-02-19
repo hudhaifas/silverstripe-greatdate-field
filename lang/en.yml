@@ -1,12 +1,19 @@
 en:
-  Date:
+  GreatDate:
+    YEAR: 'year'
+    YEARS: 'years'
+    MONTH: 'month'
+    MONTHS: 'months'
+    DAY: 'day'
+    DAYS: 'days'
+
     Formal: '{month} {day}, {year}{bc}'
     Formal_YEAR: '{year}{bc}'
     Formal_MONTH: '{month} {year}{bc}'
     Formal_MONTH_DAY: '{month} {day}'
     CALENDAR_GREGORIAN: 'G'
     CALENDAR_HIJRI: 'H'
-    AD_DATE: ' A.D.'
+    AD_DATE: ''
     BC_DATE: ' B.C.'
     AH_DATE: ' A.H.'
     BH_DATE: ' B.H.'

@@ -24,7 +24,7 @@ class HijriCalendar {
         ];
         $key = $months[$month - 1];
 
-        return _t("Date.{$key}", $key);
+        return _t("GreatDate.{$key}", $key);
     }
 
     static function gregorianToHijri($month, $day, $year) {
