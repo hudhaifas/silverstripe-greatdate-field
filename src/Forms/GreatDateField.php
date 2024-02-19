@@ -46,15 +46,21 @@ class GreatDateField extends FormField {
         $this->fieldDay = TextField::create("{$name}[Day]", false)
                 ->addExtraClass('day fieldgroup-field')
                 ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_DAY', 'Day'))
+                ->setAttribute('pattern', '[0-9]*')
+                ->setAttribute('inputmode', 'numeric')
                 ->setMaxLength(2);
 
         $this->fieldMonth = TextField::create("{$name}[Month]", false)
                 ->addExtraClass('month fieldgroup-field')
                 ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_MONTH', 'Month'))
+                ->setAttribute('pattern', '[0-9]*')
+                ->setAttribute('inputmode', 'numeric')
                 ->setMaxLength(2);
         $this->fieldYear = TextField::create("{$name}[Year]", false)
                 ->addExtraClass('year fieldgroup-field')
                 ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_YEAR', 'Year'))
+                ->setAttribute('pattern', '[0-9]*')
+                ->setAttribute('inputmode', 'numeric')
                 ->setMaxLength(5);
         $this->fieldCalendar = DropdownField::create(
                         "{$name}[Calendar]", // 

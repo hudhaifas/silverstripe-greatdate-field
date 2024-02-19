@@ -8,7 +8,7 @@ Great Date Field for B.C. dates
 - Allow storing B.C. dates in the database
 
 ### Requirements
-- SilverStripe Framework 4.x
+- SilverStripe Framework 5.x
 
 ### Installation
 - Install the module through composer:

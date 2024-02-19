@@ -349,21 +349,16 @@ class DBGreatDate
     /**
      *
      */
-    protected static $mock_today = null;
+    protected static $cached_today = null;
 
     public static function today() {
         /** @var DBDatetime $today */
         $today = null;
-        if (self::$mock_today) {
-            $now = self::$mock_today;
+        if (self::$cached_today) {
+            return self::$cached_today;
         } else {
-            $now = DBDatetime::now();
-            $today = new DBGreatDate();
-            $today->setValue([
-                'Day' => $now->Format('d', DBDate::ISO_LOCALE),
-                'Month' => $now->Format('M', DBDate::ISO_LOCALE),
-                'Year' => $now->Format('Y', DBDate::ISO_LOCALE)
-            ]);
+            $today = self::create_great_date(date("Y/m/d"));
+            self::$cached_today = $today;
         }
         return $today;
     }
