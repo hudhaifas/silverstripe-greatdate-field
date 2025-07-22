@@ -223,6 +223,45 @@ class DBGreatDate
         return $this->Hijri() . _t('GreatDate.ALMOWAFEQ', ', ') . $this->Long();
     }
 
+    /**
+     * Returns the Gregorian date in ISO 8601 format.
+     * - Handles BC years with a leading minus sign.
+     * - Supports partial dates: year-only or year-month if day/month are unknown.
+     * - Does not fallback to default days/months; retains estimated granularity.
+     *
+     * @return string ISO-formatted date (e.g. "2025-07-21", "2025-07", or "-00550")
+     */
+    public function ISO() {
+        // Return empty string if the year is not valid
+        if (!$this->exists()) {
+            return '';
+        }
+
+        // Format year with leading zeros (e.g., "2025", or "-00550" for 550 BC)
+        $year = ($this->getYear() >= 0)
+            ? sprintf('%04d', $this->getYear())
+            : sprintf("-%05d", abs($this->getYear())); // ISO 8601 requires negative years to be zero-padded to 5 digits
+
+        // If month is unknown (estimated), return only the year
+        if ($this->isEstimatedMonth()) {
+            return $year;
+        }
+
+        // Format month as two-digit string (e.g., "03")
+        $month = sprintf('%02d', $this->getMonth());
+
+        // If day is unknown (estimated), return year and month only
+        if ($this->isEstimatedDay()) {
+            return "$year-$month";
+        }
+
+        // Format day as two-digit string (e.g., "09")
+        $day = sprintf('%02d', $this->getDay());
+
+        // Return full ISO date string
+        return "$year-$month-$day";
+    }
+
     public function MonthDay($short = false) {
         if ($this->isEstimatedMonth()) {
             return '';
