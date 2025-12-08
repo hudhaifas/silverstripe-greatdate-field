@@ -428,4 +428,21 @@ class DBGreatDate
         return is_numeric($value) && ($value >= 1 || $value <= -1);
     }
 
+    /**
+     * Convert this GreatDate to an array structure
+     * Returns array with day, month, year components
+     * Useful for JSON serialization, GraphQL, and API responses
+     * 
+     * @return array|null Array with day, month, year keys or null if date doesn't exist
+     */
+    public function toArray() {
+        if ($this->exists()) {
+            return [
+                'day' => $this->getDay(),
+                'month' => $this->getMonth(),
+                'year' => $this->getYear()
+            ];
+        }
+        return null;
+    }
 }
