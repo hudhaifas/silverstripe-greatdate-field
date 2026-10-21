@@ -45,6 +45,7 @@ class GreatDateField extends FormField {
         // naming with underscores to prevent values from actually being saved somewhere
         $this->fieldDay = TextField::create("{$name}[Day]", false)
                 ->addExtraClass('day fieldgroup-field')
+                ->setAttribute('data-greatdate-part', 'day')
                 ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_DAY', 'Day'))
                 ->setAttribute('pattern', '[0-9]*')
                 ->setAttribute('inputmode', 'numeric')
@@ -52,12 +53,14 @@ class GreatDateField extends FormField {
 
         $this->fieldMonth = TextField::create("{$name}[Month]", false)
                 ->addExtraClass('month fieldgroup-field')
+                ->setAttribute('data-greatdate-part', 'month')
                 ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_MONTH', 'Month'))
                 ->setAttribute('pattern', '[0-9]*')
                 ->setAttribute('inputmode', 'numeric')
                 ->setMaxLength(2);
         $this->fieldYear = TextField::create("{$name}[Year]", false)
                 ->addExtraClass('year fieldgroup-field')
+                ->setAttribute('data-greatdate-part', 'year')
                 ->setAttribute('placeholder', _t('GreatDate.FIELDLABELA_YEAR', 'Year'))
                 ->setAttribute('pattern', '[0-9]*')
                 ->setAttribute('inputmode', 'numeric')
@@ -82,6 +85,7 @@ class GreatDateField extends FormField {
      */
     public function Field($properties = []) {
         Requirements::css("hudhaifas/silverstripe-greatdate-field: res/css/greatdatefield.css");
+        Requirements::javascript("hudhaifas/silverstripe-greatdate-field: res/js/greatdatefield.js");
 
         $format = 'd/m/y';
         $fields = [];
@@ -115,7 +119,23 @@ class GreatDateField extends FormField {
     }
 
     public function setSubmittedValue($value, $data = null) {
-        $this->setValue($value, $data);
+        $this->setValue(self::normalize_digits($value), $data);
+    }
+
+    /**
+     * Converts Arabic-Indic (٠-٩) and Persian (۰-۹) digits to 0-9
+     */
+    public static function normalize_digits($value) {
+        if (is_array($value)) {
+            return array_map([self::class, 'normalize_digits'], $value);
+        }
+
+        return is_string($value) ? strtr($value, [
+            '٠' => '0', '١' => '1', '٢' => '2', '٣' => '3', '٤' => '4',
+            '٥' => '5', '٦' => '6', '٧' => '7', '٨' => '8', '٩' => '9',
+            '۰' => '0', '۱' => '1', '۲' => '2', '۳' => '3', '۴' => '4',
+            '۵' => '5', '۶' => '6', '۷' => '7', '۸' => '8', '۹' => '9',
+        ]) : $value;
     }
 
     public function saveInto(DataObjectInterface $dataObject) {

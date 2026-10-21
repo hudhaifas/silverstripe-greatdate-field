@@ -20,7 +20,8 @@
     "extra": {
         "installer-name": "greatdate-field",
         "expose": [
-            "res/css"
+            "res/css",
+            "res/js"
         ]
     }
 }
